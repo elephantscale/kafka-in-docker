@@ -15,10 +15,11 @@ producer = Producer(conf)
 
 topic = "test"
 time_now_ms = time.time_ns() // 1_000_000
-for i in range(1, 10+1):
+for i in range(1, 1000+1):
         key = "{}".format (time_now_ms + i)   # time in ms
         value = 'hello world @ {}'.format(key)
         producer.produce(topic, key=key, value=value)
         print ("Sending message #{}. key={}, value={}".format(i, key, value))
+        time.sleep(0.5)
 
 producer.flush()  # send all messages
