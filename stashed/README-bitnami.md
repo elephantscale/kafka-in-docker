@@ -4,8 +4,8 @@ Run multiple Kafka brokers, effortlessly!
 
 This stack features:
 
-- zookeeper (from [confluentinc/cp-zookeeper](https://hub.docker.com/r/confluentinc/cp-zookeeper))
-- Kafka v3 (3 brokers of [confluentinc/cp-kafka](https://hub.docker.com/r/confluentinc/cp-kafka))
+- zookeeper (from [bitnami/zookeeper](https://hub.docker.com/r/bitnami/zookeeper))
+- Kafka v3 (3 brokers of [bitnami/kafka](https://hub.docker.com/r/bitnami/kafka))
 - [Kafka cluster manager](https://github.com/yahoo/CMAK) - a nice UI to manage the Kafka cluster
 - A Java dev container with maven (you don't even need java or maven on your localhost!)
 - A python dev container with all the libraries installed (you don't even need python on your localhost)
@@ -50,20 +50,20 @@ $   docker-compose exec  kafka1  bash
 Execute the following in Kafka docker
 
 ```bash
-$    kafka-topics --bootstrap-server kafka1:19092  --list
+$    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 ```
 
 Create a new topic
 
 ```bash
-$   kafka-topics  --bootstrap-server kafka1:19092   \
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --create --topic test --replication-factor 3  --partitions 10
 ```
 
 Describe topic
 
 ```bash
-$   kafka-topics  --bootstrap-server kafka1:19092   \
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
@@ -78,7 +78,7 @@ $   docker-compose exec  kafka2  bash
 And start console consumer
 
 ```bash
-$    kafka-console-consumer --bootstrap-server kafka2:19092  --topic test
+$    kafka-console-consumer.sh --bootstrap-server kafka2:19092  --topic test
 ```
 
 ### Quickstart-6: Console Producer
@@ -92,7 +92,7 @@ $   docker-compose exec  kafka1  bash
 Run producer
 
 ```bash
-$    kafka-console-producer --bootstrap-server kafka1:19092  --topic test
+$    kafka-console-producer.sh --bootstrap-server kafka1:19092  --topic test
 ```
 
 Type a few things like
@@ -190,6 +190,10 @@ $   python /python_kafka_test_client.py    kafka1:19092
 
 ## Changes I Made
 
+**Custom Kafka start script**
+
+I am using a custom [scripts/kafka-server-start.sh](scripts/kafka-server-start.sh) enables JMX_PORT 9999 for Kafka brokers.  This script is mapped to `/opt/bitnami/kafka/bin/kafka-server-start.sh` on Kafka brokers.
+
 **Maven settings.xml**
 
 [java/settings.xml](java/settings.xml) sets the default Maven repository to `/var/maven/.m2/repository`.  It is mapped to `/usr/share/maven/conf/settings.xml` on mvn image.
@@ -198,10 +202,12 @@ $   python /python_kafka_test_client.py    kafka1:19092
 
 ### Other Kafka Images
 
-- [bitnami/kafka](https://hub.docker.com/r/bitnami/kafka)
+- confluentinc/cp-zookeeper
+- confluentinc/cp-kafka
 
 ### Excellent guides that helped me
 
+- https://github.com/bitnami/bitnami-docker-kafka#setting-up-a-kafka-cluster
 - https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
     - connecting from Eclipse
 - https://github.com/rmoff/kafka-listeners

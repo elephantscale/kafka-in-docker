@@ -2,80 +2,95 @@ version: "3"
 services:
 
   zookeeper:
-    image: 'bitnami/zookeeper:latest'
-    ports:
-      - '2181:2181'
+    image: confluentinc/cp-zookeeper:latest
     restart: unless-stopped
     environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+     - 2181:2181
     volumes:
-      - zookeeper_data:/bitnami/zookeeper
+      - zookeeper_data:/var/lib/zookeeper:z
 
   kafka1:
-    image: 'bitnami/kafka:3'
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
     ports:
       - 19092   # just within docker network
       - '9092:9092'   # localhost mapping
-    restart: unless-stopped
+    # container_name: kafka1
     environment:
       - KAFKA_BROKER_ID=1
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_JMX_PORT=9999  # for JMX metrics
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_LISTENERS=CLIENT://:19092,EXTERNAL://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka1:19092,EXTERNAL://localhost:9092
+      # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
+      - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - LISTENERS=CLIENT://:19092,EXTERNAL://:9092
+      - KAFKA_ADVERTISED_LISTENERS=CLIENT://kafka1:19092,EXTERNAL://localhost:9092
       - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
-    depends_on:
-      - zookeeper
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+      - CONFLUENT_METRICS_ENABLE='false'
+      # - CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS=kafka1:19092
+      # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
-      - kafka1_data:/bitnami/kafka
-      - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
-
+      - kafka1_data:/var/lib/kafka:z
 
   kafka2:
-    image: 'bitnami/kafka:3'
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
     ports:
       - 19092   # just within docker network
       - '9093:9093'   # localhost mapping
-    restart: unless-stopped
+    # container_name: kafka2
     environment:
       - KAFKA_BROKER_ID=2
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_JMX_PORT=9999  # for JMX metrics
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_LISTENERS=CLIENT://:19092,EXTERNAL://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka2:19092,EXTERNAL://localhost:9093
+      # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
+      - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - LISTENERS=CLIENT://:19092,EXTERNAL://:9093
+      - KAFKA_ADVERTISED_LISTENERS=CLIENT://kafka2:19092,EXTERNAL://localhost:9093
       - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
-    depends_on:
-      - zookeeper
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+      - CONFLUENT_METRICS_ENABLE='false'
+      # - CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS=kafka2:19092
+      # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
-      - kafka2_data:/bitnami/kafka
-      - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
-
+      - kafka2_data:/var/lib/kafka:z
 
   kafka3:
-    image: 'bitnami/kafka:3'
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
     ports:
       - 19092   # just within docker network
       - '9094:9094'   # localhost mapping
-    restart: unless-stopped
+    # container_name: kafka3
     environment:
       - KAFKA_BROKER_ID=3
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_JMX_PORT=9999  # for JMX metrics
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      - KAFKA_CFG_LISTENERS=CLIENT://:19092,EXTERNAL://:9094
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka3:19092,EXTERNAL://localhost:9094
+      # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
+      - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - LISTENERS=CLIENT://:19092,EXTERNAL://:9094
+      - KAFKA_ADVERTISED_LISTENERS=CLIENT://kafka3:19092,EXTERNAL://localhost:9094
       - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
-    depends_on:
-      - zookeeper
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=3
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=3
+      - CONFLUENT_METRICS_ENABLE='false'
+      # - CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS=kafka3:19092
+      # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
-      - kafka3_data:/bitnami/kafka
-      - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
-
+      - kafka3_data:/var/lib/kafka:z
 
   kafka-cluster-manager:
     build:
@@ -88,7 +103,6 @@ services:
     environment:
       - ZK_HOSTS=zookeeper:2181
 
-
   java-dev:  # java dev and maven build box
     image: maven:3-jdk-11 
     command: ["/bin/bash"]
@@ -97,7 +111,7 @@ services:
     volumes:
       - ./.maven-m2-cache:/var/maven/.m2/  # this is for caching mvn downloads
       - ./java-dev/settings.xml:/usr/share/maven/conf/settings.xml:ro   # for maven settings
-      - ./work:/work   # for sharing files from host
+      - ./work:/work:z   # for sharing files from host
 
 
   python-dev:
@@ -108,8 +122,18 @@ services:
     working_dir: '/work'
     user: ${CURRENT_USER}
     volumes:
-      - ./work:/work   # for sharing files from host
+      - ./work:/work:z   # for sharing files from host
 
+  # zoonavigator:
+  #   image: elkozmon/zoonavigator:0.8.0
+  #   container_name: zoonavigator
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     HTTP_PORT: 8000
+  #     AUTO_CONNECT_CONNECTION_STRING: zookeeper1:2181
+  #   depends_on:
+  #     - zookeeper1
 
 volumes:
   zookeeper_data:
