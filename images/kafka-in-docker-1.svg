@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <g>
+    <title>localhost</title>
+    <rect x="38.828" y="33.379" width="436.649" height="414.85" style="fill: rgb(212, 228, 255);"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="220.632" y="50.409">localhost</text>
+  </g>
+  <g>
+    <title>docker network</title>
+    <circle style="fill: rgb(156, 216, 142);" cx="246.594" cy="237.739" r="123.8" transform="matrix(0.691865, 0, 0, 1.033015, 85.477486, -1.036841)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="226.158" y="240.463" transform="matrix(1, 0, 0, 1, 0, -13)">docker<tspan x="226.1580047607422" dy="1em">​</tspan><tspan x="226.1580047607422" dy="1em">​</tspan><tspan x="226.1580047607422" dy="1em">​</tspan>network</text>
+  </g>
+  <g>
+    <title>zookeeper</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="169.618" cy="164.169" r="51.235" transform="matrix(1.05983, 0, 0, 0.787271, -13.213657, 45.822731)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="120.196" y="161.226">zookeeper</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="178.474" y="180.517">2181</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="38.717" y="178.813">2181</text>
+    <line style="stroke: rgb(0, 0, 0);" x1="79.7" y1="173.025" x2="117.847" y2="173.025"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 190.343185, -25.40609)">
+    <title>kafka1</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="169.618" cy="164.169" r="51.235" transform="matrix(1.05983, 0, 0, 0.787271, -13.213657, 45.822731)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="140.632" y="157.139">kafka1</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="92.643" y="184.604">19092</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="241.567" y="182.902" bx:origin="1.54 -2.142">9092</text>
+    <line style="stroke: rgb(0, 0, 0);" x1="242.218" y1="175.951" x2="215.651" y2="175.951"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 190.816681, 68.310532)">
+    <title>kafka2</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="169.618" cy="164.169" r="51.235" transform="matrix(1.05983, 0, 0, 0.787271, -13.213657, 45.822731)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="140.632" y="157.139">kafka2</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="92.643" y="184.604">19092</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="238.567" y="182.902" bx:origin="1.54 -2.142">9093</text>
+    <line style="stroke: rgb(0, 0, 0);" x1="236.767" y1="175.558" x2="206.113" y2="175.558"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 192.484238, 166.920898)">
+    <title>kafka3</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="169.618" cy="164.169" r="51.235" transform="matrix(1.05983, 0, 0, 0.787271, -13.213657, 45.822731)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="140.632" y="157.139">kafka3</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="92.643" y="184.604">19092</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="239.567" y="182.902" bx:origin="1.54 -2.142">9094</text>
+    <line style="stroke: rgb(0, 0, 0);" x1="239.78" y1="176.404" x2="212.532" y2="176.404"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 0.637461, 101.855492)">
+    <title>kafka manager</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="169.618" cy="164.169" r="51.235" transform="matrix(1.05983, 0, 0, 0.787271, -13.213657, 45.822731)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="120.196" y="161.226" transform="matrix(1, 0, 0, 1, 9, 0)">Kafka<tspan x="120.19599914550781" dy="1em">​</tspan>manager</text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="178.474" y="180.517"> </text>
+    <text style="fill: rgb(197, 28, 22); font-family: Arial, sans-serif; font-size: 19.1px; white-space: pre;" x="38.717" y="178.813">9000</text>
+    <line style="stroke: rgb(0, 0, 0);" x1="79.7" y1="173.025" x2="117.847" y2="173.025"/>
+  </g>
+  <g>
+    <title>java dev</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="179.155" cy="352.861" r="31.929" transform="matrix(1.597374, 0, 0, 0.775985, -118.603004, 86.198898)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="145.095" y="353.542">java<tspan x="145.09500122070312" dy="1em">​</tspan>dev</text>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 85.831482, 37.125248)">
+    <title>java dev</title>
+    <circle style="fill: rgb(216, 147, 200);" cx="179.155" cy="352.861" r="31.929" transform="matrix(1.597374, 0, 0, 0.775985, -118.603004, 86.198898)"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="145.095" y="353.542">python<tspan x="145.09500122070312" dy="1em">​</tspan>dev</text>
+  </g>
+  <g>
+    <title>eclipse</title>
+    <rect x="66.757" y="50.409" width="127.384" height="51.771" style="fill: rgb(255, 235, 138);"/>
+    <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 19.1px;" x="99.455" y="80.381">Eclipse</text>
+  </g>
+</svg>

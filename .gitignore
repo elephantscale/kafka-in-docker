@@ -1,0 +1,20 @@
+# maven repo cache
+.maven-m2-cache/repository
+
+# java artifacts
+*.class
+*.jar
+target
+
+# Eclipse artifacts
+.classpath
+.project
+.factorypath
+.settings
+
+# IntelliJ
+.idea
+
+# Python
+*.pyc
+.pycache
