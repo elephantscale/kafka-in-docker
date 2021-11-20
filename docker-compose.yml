@@ -106,17 +106,7 @@ services:
     environment:
       - ZK_HOSTS=zookeeper:2181
 
-  java-dev:  # java dev and maven build box
-    image: maven:3-jdk-11 
-    command: ["/bin/bash"]
-    working_dir: '/work'
-    user: ${CURRENT_USER}
-    volumes:
-      - ./.maven-m2-cache:/var/maven/.m2/  # this is for caching mvn downloads
-      - ./java-dev/settings.xml:/usr/share/maven/conf/settings.xml:ro   # for maven settings
-      - ./work:/work:z   # for sharing files from host
-
-
+      
   python-dev:
     image: kafka-python-dev  # this is built locally
     build:
