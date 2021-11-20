@@ -3,9 +3,9 @@
 from confluent_kafka import Consumer, KafkaError
 
 conf = {
-        'bootstrap.servers': "kafka1:19092", # running within docker
+        # 'bootstrap.servers': "kafka1:19092", # running within docker
         # 'bootstrap.servers': "localhost:9092", # running on host
-        # 'bootstrap.servers': "localhost:9092,kafka1:19092", # running on host and docker
+        'bootstrap.servers': "localhost:9092,kafka1:19092", # running on host and docker
         'group.id': "foo",
         'auto.offset.reset': 'smallest'}
 

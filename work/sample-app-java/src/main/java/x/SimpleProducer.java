@@ -28,7 +28,7 @@ public class SimpleProducer {
         
         String topic = "test";
         
-        for (int i = 1; i <= 10; i++) 
+        for (int i = 1; i <= 1000; i++) 
         {
             String key = "" + System.currentTimeMillis();
             String value = "Hello world @ " + key;
@@ -45,6 +45,12 @@ public class SimpleProducer {
             + "time took = %.2f ms",
             i, key, value, meta.partition(), meta.offset(), meta.timestamp(),
             (t2-t1)/1e6));
+            
+            try {
+            	
+            	Thread.sleep(500);
+            }
+            catch (InterruptedException ex) {}
             
         }
         
