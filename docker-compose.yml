@@ -21,11 +21,12 @@ services:
     ports:
       - 19092   # just within docker network
       - '9092:9092'   # localhost mapping
+      -  9991:9991  # JMX
     # container_name: kafka1
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_JMX_PORT=9999  # for JMX metrics
+      - KAFKA_JMX_PORT=9991  # for JMX metrics
       # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
       - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -47,11 +48,12 @@ services:
     ports:
       - 19092   # just within docker network
       - '9093:9093'   # localhost mapping
+      - 9992:9992  # JMX
     # container_name: kafka2
     environment:
       - KAFKA_BROKER_ID=2
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_JMX_PORT=9999  # for JMX metrics
+      - KAFKA_JMX_PORT=9992  # for JMX metrics
       # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
       - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -73,11 +75,12 @@ services:
     ports:
       - 19092   # just within docker network
       - '9094:9094'   # localhost mapping
+      - 9993:9993  # JMX
     # container_name: kafka3
     environment:
       - KAFKA_BROKER_ID=3
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_JMX_PORT=9999  # for JMX metrics
+      - KAFKA_JMX_PORT=9993  # for JMX metrics
       # - KAFKA_HEAP_OPTS='-Xmx512M -Xms512M'
       - KAFKA_ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -134,6 +137,68 @@ services:
   #     AUTO_CONNECT_CONNECTION_STRING: zookeeper1:2181
   #   depends_on:
   #     - zookeeper1
+
+  grafana:
+    image: "grafana/grafana"
+    ports:
+     - "3000:3000"
+    environment:
+      GF_PATHS_DATA : /var/lib/grafana
+      GF_SECURITY_ADMIN_PASSWORD : kafka
+    volumes:
+     - ./grafana/provisioning:/etc/grafana/provisioning
+     - ./grafana/dashboards:/var/lib/grafana/dashboards
+    container_name: grafana
+    depends_on:
+     - prometheus
+
+  prometheus:
+    image: "prom/prometheus"
+    ports:
+     - "9090:9090"
+    volumes:
+     - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    container_name: prometheus
+
+  jmx-kafka1:
+    image: "sscaling/jmx-prometheus-exporter"
+    ports:
+     - "5556:5556"
+    environment:
+     CONFIG_YML : "/etc/jmx_exporter/config.yml"
+     JVM_OPTS: "-Xmx512M"
+    volumes:
+     - ./config/jmx_exporter/config_kafka1.yml:/etc/jmx_exporter/config.yml:ro
+    # container_name: jmx-kafka1
+    depends_on:
+     - kafka1
+
+  jmx-kafka2:
+    image: "sscaling/jmx-prometheus-exporter"
+    ports:
+     - "5557:5556"
+    environment:
+     CONFIG_YML : "/etc/jmx_exporter/config.yml"
+     JVM_OPTS: "-Xmx512M"
+    volumes:
+     - ./config/jmx_exporter/config_kafka2.yml:/etc/jmx_exporter/config.yml:ro
+    # container_name: jmx-kafka2
+    depends_on:
+     - kafka2
+
+  jmx-kafka3:
+    image: "sscaling/jmx-prometheus-exporter"
+    ports:
+     - "5558:5556"
+    environment:
+     CONFIG_YML : "/etc/jmx_exporter/config.yml"
+     JVM_OPTS: "-Xmx512M"
+    volumes:
+     - ./config/jmx_exporter/config_kafka3.yml:/etc/jmx_exporter/config.yml:ro
+    # container_name: jmx-kafka3
+    depends_on:
+     - kafka3
 
 volumes:
   zookeeper_data:

@@ -202,6 +202,7 @@ $   python /python_kafka_test_client.py    kafka1:19092
 
 ### Excellent guides that helped me
 
+- The grafana / prometheus part is heavily borrowed, with much thanks, from [https://github.com/streamthoughts/kafka-monitoring-stack-docker-compose](https://github.com/streamthoughts/kafka-monitoring-stack-docker-compose) - a very nicely done monitoring stack for Kafka!
 - https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/
     - connecting from Eclipse
 - https://github.com/rmoff/kafka-listeners
