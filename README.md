@@ -2,13 +2,13 @@
 
 Run multiple Kafka brokers, effortlessly!
 
-This stack features:
+This stack offers a complete Kafka development environment on localhost.  You can run a single broker kafka cluster or **multi-broker Kafka cluster** on localhost.
 
-- zookeeper (from [confluentinc/cp-zookeeper](https://hub.docker.com/r/confluentinc/cp-zookeeper))
-- Kafka v3 (3 brokers of [confluentinc/cp-kafka](https://hub.docker.com/r/confluentinc/cp-kafka))
-- [Kafka cluster manager](https://github.com/yahoo/CMAK) - a nice UI to manage the Kafka cluster
-- A Java dev container with maven (you don't even need java or maven on your localhost!)
-- A python dev container with all the libraries installed (you don't even need python on your localhost)
+Also a Kafka UI is included.
+
+Plus we have full monitoring stack using Grafana and Prometheus stack.
+
+And finally we have a Java and Python development environments also!
 
 ## Quick start
 
@@ -24,20 +24,51 @@ Only have to do this once
 
 ```bash
 $   cd  kafka-in-docker
-$   docker-compose build
+$   docker-compose  -f docker-compose-multi-kafka.yml  build
 ```
 
 ### Quickstart-3: Start services
 
+There are various stack configurations to fit your need.
+
+**1 - Single broker Kafka** 
+
+This one starts up
+
+- 1 x Zookeeper 
+- 1 x Kafka broker
+- Kafka UI Manager
+
 ```bash
-$   docker-compose up -d
+$   bash start-single-kafka.sh
 ```
 
-Check running services
+**2 - Multi broker Kafka**
+
+This one starts
+
+- 1 x Zookeeper
+- 3 x Kafka brokers
+- Kafka UI Manager
 
 ```bash
-$   docker-compose ps
+$   bash  start-multi-kafka.sh
 ```
+
+**3 - Multi broker Kafka + Monitoring stack**
+
+This stack is **everything**.  Starts...
+
+- 1 x zookeeper
+- 3 x Kafka brokers
+- Kafka UI Manager
+- Prometheus
+- Grafana
+
+```bash
+$   bash ./start-multi-kafka-monitoring.sh
+```
+
 
 ### Quickstart-4: Create a test topic
 
