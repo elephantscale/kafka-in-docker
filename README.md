@@ -24,7 +24,7 @@ Only have to do this once
 
 ```bash
 $   cd  kafka-in-docker
-$   docker-compose  -f docker-compose-multi-kafka.yml  build
+$   bash ./build-images.sh
 ```
 
 ### Quickstart-3: Start services
@@ -75,7 +75,13 @@ $   bash ./start-multi-kafka-monitoring.sh
 Login to a Kafka broker
 
 ```bash
-$   docker-compose exec  kafka1  bash
+# be sure to specify the correct docker-compose.yml file
+
+# on a single node setup
+$   docker-compose -f docker-compose-single-kafka.yml  exec kafka1  bash
+
+# on a multi node setup
+$   docker-compose  -f docker-compose-multi-kafka.yml  exec  kafka1  bash
 ```
 
 Execute the following in Kafka docker
@@ -103,7 +109,13 @@ $   kafka-topics  --bootstrap-server kafka1:19092   \
 Login to one of Kafka brokers
 
 ```bash
-$   docker-compose exec  kafka2  bash
+# be sure to specify the correct docker-compose.yml file
+
+# on a single node setup
+$   docker-compose -f docker-compose-single-kafka.yml  exec kafka1  bash
+
+# on a multi node setup
+$   docker-compose  -f docker-compose-multi-kafka.yml  exec  kafka2  bash
 ```
 
 And start console consumer
@@ -169,7 +181,7 @@ It may be a bit of complex setup.  But docker-compose makes it easy manage
 
 [Sample python app](work/sample-app-python/README.md)
 
-## A Note about permissoins
+## A Note about permissions
 
 `./work` directory is mounted on `java-dev` and 'python-dev` containers.  We mount this using current user id, so the files will have the correct permissions, even when created from within the container
 

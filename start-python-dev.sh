@@ -4,4 +4,13 @@
 export CURRENT_USER="$(id -u):$(id -g)"
 # echo $CURRENT_USER
 
-docker-compose run python-dev
+# build kafka-pydev
+# (cd python-dev ;  docker build . -t kafka-pydev)
+
+docker run -it --rm \
+    --user $CURRENT_USER \
+    --network  kafka-net \
+    -v $(pwd)/work:/work:z   \
+    -w /work \
+    kafka-python-dev  \
+    /bin/bash

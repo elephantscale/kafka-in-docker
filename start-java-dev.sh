@@ -9,6 +9,7 @@ mkdir -p  $HOME/.m2
 
 docker run -it --rm \
     --user $CURRENT_USER \
+    --network  kafka-net \
     -v $HOME/.m2:/var/maven/.m2  \
     -v $(pwd)/config/maven/settings.xml:/usr/share/maven/conf/settings.xml:ro   \
     -v $(pwd)/work:/work:z   \

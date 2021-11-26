@@ -5,6 +5,8 @@ export CURRENT_USER="$(id -u):$(id -g)"
 
 docker-compose -f docker-compose-multi-kafka-monitoring.yml  up -d
 
+docker-compose -f docker-compose-multi-kafka-monitoring.yml  ps
+
 echo -e "\n------------------------------------------------------------------------------------------------------"
 echo -e "All services started!"
 echo -e "Kafka UI Manager : http://localhost:9000"
