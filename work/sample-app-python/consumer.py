@@ -7,7 +7,7 @@ conf = {
         # 'bootstrap.servers': "localhost:9092", # running on host
         'bootstrap.servers': "localhost:9092,kafka1:19092", # running on host and docker
         'group.id': "foo",
-        'auto.offset.reset': 'smallest'}
+        'auto.offset.reset': 'largest'}
 
 consumer = Consumer(conf)
 

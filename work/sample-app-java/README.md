@@ -43,7 +43,7 @@ $   mvn clean package
 $   ls -lh target/
 ```
 
-**Note**: The maven .m2 directory is in `/var/maven/.m2`.  This directory is mounted from host dir `./maven-m2-cache`.  So the downloaded artifacts are persisted.
+**Note**: The maven `~/.m2` directory from host is mounted as `/var/maven/.m2` in docker.  So we can share maven cache from localhost and container.
 
 Run consumer:
 
