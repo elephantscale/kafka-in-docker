@@ -2,7 +2,7 @@
 
 ## Prep
 
-Follow the [parent README](../../README.md) to setup `test` topic
+Follow the [parent README](../../README.md) to start containers and setup topics
 
 ## Code
 
@@ -14,12 +14,7 @@ Follow the [parent README](../../README.md) to setup `test` topic
 Run the python code within `python-dev` container
 
 ```bash
-# Go to project root dir
 $   cd kafka-in-docker  
-
-# start all services
-$   ./start-all.sh
-
 # start python-dev container
 $   ./start-python-dev.sh
 # this will drop you into /work directory in container
