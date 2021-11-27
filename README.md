@@ -64,7 +64,7 @@ This stack is **everything**.  Starts...
 - Grafana
 
 ```bash
-$   bash ./start-multi-kafka-monitoring.sh
+$   bash ./start-kafka-full.sh
 ```
 
 ### Quickstart-4: Create a test topic
@@ -100,7 +100,12 @@ $   kafka-topics  --bootstrap-server kafka1:19092   \
 Login to a kafka node
 
 ```bash
+# choose the right docker-compose.yml
+# multi-node kafka
 $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
+
+# or on a full stack
+$   docker-compose  -f docker-compose-kafka-full.yml  exec  kafka1  bash
 ```
 
 Execute the following in Kafka docker
@@ -127,7 +132,7 @@ Login to a Kafka broker
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 
 # on a multi node setup
-$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka2  bash
+$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 ```
 
 And start console consumer
@@ -148,6 +153,9 @@ $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 
 # on a multi node setup
 $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka2  bash
+
+# on a full setup
+$   docker-compose  -f docker-compose-kafka-full.yml  exec  kafka2  bash
 ```
 
 Run producer

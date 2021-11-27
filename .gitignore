@@ -1,5 +1,7 @@
-# maven repo cache
-.maven-m2-cache/repository
+# Generic
+tmp/
+*.zip
+*.out
 
 # java artifacts
 *.class
