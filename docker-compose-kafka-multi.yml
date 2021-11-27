@@ -13,6 +13,8 @@ services:
      - 2181:2181
     volumes:
       - zookeeper_data:/var/lib/zookeeper:z
+    networks:
+      - kafka-net
 
   kafka1:
     image: confluentinc/cp-kafka:latest
@@ -21,8 +23,7 @@ services:
     ports:
       - 19092   # just within docker network
       - '9092:9092'   # localhost mapping
-      # -  9991:9991  # JMX
-    # container_name: kafka1
+    restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -40,6 +41,8 @@ services:
       # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
       - kafka1_data:/var/lib/kafka:z
+    networks:
+      - kafka-net
 
   kafka2:
     image: confluentinc/cp-kafka:latest
@@ -48,8 +51,7 @@ services:
     ports:
       - 19092   # just within docker network
       - '9093:9093'   # localhost mapping
-      # - 9992:9992  # JMX
-    # container_name: kafka2
+    restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=2
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -67,6 +69,8 @@ services:
       # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
       - kafka2_data:/var/lib/kafka:z
+    networks:
+      - kafka-net
 
   kafka3:
     image: confluentinc/cp-kafka:latest
@@ -75,8 +79,7 @@ services:
     ports:
       - 19092   # just within docker network
       - '9094:9094'   # localhost mapping
-      # - 9993:9993  # JMX
-    # container_name: kafka3
+    restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=3
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -94,6 +97,8 @@ services:
       # - CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT=zookeeper:2181
     volumes:
       - kafka3_data:/var/lib/kafka:z
+    networks:
+      - kafka-net
 
   kafka-cluster-manager:
     build:
@@ -105,29 +110,8 @@ services:
     restart: unless-stopped
     environment:
       - ZK_HOSTS=zookeeper:2181
-
-      
-  python-dev:
-    image: kafka-python-dev  # this is built locally
-    build:
-      context: python-dev
-    command: ["/bin/bash"]
-    working_dir: '/work'
-    user: ${CURRENT_USER}
-    volumes:
-      - ./work:/work:z   # for sharing files from host
-
-  # zoonavigator:
-  #   image: elkozmon/zoonavigator:0.8.0
-  #   container_name: zoonavigator
-  #   ports:
-  #     - "8000:8000"
-  #   environment:
-  #     HTTP_PORT: 8000
-  #     AUTO_CONNECT_CONNECTION_STRING: zookeeper1:2181
-  #   depends_on:
-  #     - zookeeper1
-
+    networks:
+      - kafka-net
 
 volumes:
   zookeeper_data:
@@ -138,3 +122,8 @@ volumes:
     driver: local
   kafka3_data:
     driver: local
+
+networks:
+  kafka-net:
+    driver: bridge
+    name: kafka-net
