@@ -1,14 +1,12 @@
 # Running Multi-Broker Kafka using Docker
 
-Run multiple Kafka brokers, effortlessly!
+This stack features: zookeeper + multiple kafka brokers + kafka manager UI + Java and Python dev enviroments + prometheus + grafna.
 
-This stack offers a complete Kafka development environment on localhost.  You can run a single broker kafka cluster or **multi-broker Kafka cluster** on localhost.
+There are different configurations to fit your needs:
 
-Also a Kafka UI is included.
-
-Plus we have full monitoring stack using Grafana and Prometheus stack.
-
-And finally we have a Java and Python development environments also!
+- minimal : 1 zookeeper + 1 kafka broker + kafka manager UI
+- multi node: 1 zookeeper + 3 kafka brokers + kafka manager UI
+- full stack: 1 zookeeper + 3 kafka brokers + kafka manager UI + Prometheus + Grafana
 
 ## Quick start
 
@@ -20,7 +18,7 @@ $   git clone https://github.com/elephantscale/kafka-in-docker
 
 ### Quickstart-2: Build docker containers
 
-Only have to do this once
+We do use some custom built containers.  Only have to do this once
 
 ```bash
 $   cd  kafka-in-docker
@@ -40,7 +38,7 @@ This one starts up
 - Kafka UI Manager
 
 ```bash
-$   bash start-single-kafka.sh
+$   bash start-kafka-single.sh
 ```
 
 **2 - Multi broker Kafka**
@@ -52,7 +50,7 @@ This one starts
 - Kafka UI Manager
 
 ```bash
-$   bash  start-multi-kafka.sh
+$   bash  start-kafka-multi.sh
 ```
 
 **3 - Multi broker Kafka + Monitoring stack**
@@ -69,67 +67,87 @@ This stack is **everything**.  Starts...
 $   bash ./start-multi-kafka-monitoring.sh
 ```
 
-
 ### Quickstart-4: Create a test topic
+
+**Single node setup***
 
 Login to a Kafka broker
 
 ```bash
-# be sure to specify the correct docker-compose.yml file
-
 # on a single node setup
-$   docker-compose -f docker-compose-single-kafka.yml  exec kafka1  bash
+$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
+```
 
-# on a multi node setup
-$   docker-compose  -f docker-compose-multi-kafka.yml  exec  kafka1  bash
+And within container execute the following:
+
+Execute the following in Kafka docker
+
+```bash
+# See current topics
+$    kafka-topics --bootstrap-server kafka1:19092  --list
+
+# Create a new topic
+$   kafka-topics  --bootstrap-server kafka1:19092   \
+       --create --topic test --replication-factor 1  --partitions 2
+
+# Describe topic
+$   kafka-topics  --bootstrap-server kafka1:19092   \
+       --describe --topic test 
+```
+
+**Multi-node setup**
+
+Login to a kafka node
+
+```bash
+$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 ```
 
 Execute the following in Kafka docker
 
 ```bash
+# See current topics
 $    kafka-topics --bootstrap-server kafka1:19092  --list
-```
 
-Create a new topic
-
-```bash
+# Create a new topic
 $   kafka-topics  --bootstrap-server kafka1:19092   \
        --create --topic test --replication-factor 3  --partitions 10
-```
 
-Describe topic
-
-```bash
+# Describe topic
 $   kafka-topics  --bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
 ### Quickstart-5: Console Consumer
 
-Login to one of Kafka brokers
+Login to a Kafka broker
 
 ```bash
-# be sure to specify the correct docker-compose.yml file
-
 # on a single node setup
-$   docker-compose -f docker-compose-single-kafka.yml  exec kafka1  bash
+$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 
 # on a multi node setup
-$   docker-compose  -f docker-compose-multi-kafka.yml  exec  kafka2  bash
+$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka2  bash
 ```
 
 And start console consumer
 
 ```bash
-$    kafka-console-consumer --bootstrap-server kafka2:19092  --topic test
+$    kafka-console-consumer --bootstrap-server kafka1:19092   \
+         --property print.key=true --property key.separator=":"  --topic test
+
 ```
 
 ### Quickstart-6: Console Producer
 
-Let's login to another kafka broker and run console producer
+Login to a Kafka broker
 
 ```bash
-$   docker-compose exec  kafka1  bash
+# on a single node setup
+$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
+
+# on a multi node setup
+$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka2  bash
 ```
 
 Run producer
