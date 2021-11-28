@@ -8,15 +8,13 @@ There are different configurations to fit your needs:
 - multi node: 1 zookeeper + 3 kafka brokers + kafka manager UI
 - full stack: 1 zookeeper + 3 kafka brokers + kafka manager UI + Prometheus + Grafana
 
-## Quick start
-
-### Quickstart-1: Clone this repo
+## Quickstart: Clone this repo
 
 ```bash
 $   git clone https://github.com/elephantscale/kafka-in-docker
 ```
 
-### Quickstart-2: Build docker containers
+### Quickstart: Build docker containers
 
 We do use some custom built containers.  Only have to do this once
 
@@ -25,167 +23,68 @@ $   cd  kafka-in-docker
 $   bash ./build-images.sh
 ```
 
-### Quickstart-3: Start services
+## Quick start - Single Node Kafka
 
-There are various stack configurations to fit your need.
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
 
-**1 - Single broker Kafka** 
+Simplest setup to start with.
 
-This one starts up
+This stack has:
 
-- 1 x Zookeeper 
+- 1 x Zookeeper
 - 1 x Kafka broker
 - Kafka UI Manager
 
-```bash
-$   bash start-kafka-single.sh
-```
+Read more: [quickstart-single-node.md](quickstart-single-node.md)
 
-**2 - Multi broker Kafka**
+## Quick Start - Multi Node Kafka
 
-This one starts
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+
+This stack has:
 
 - 1 x Zookeeper
 - 3 x Kafka brokers
 - Kafka UI Manager
 
-```bash
-$   bash  start-kafka-multi.sh
-```
+Read more: [quickstart-multi-node.md](quickstart-multi-node.md)
 
-**3 - Multi broker Kafka + Monitoring stack**
+## Quick start - Multi broker Kafka + Monitoring stack
+
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
+![](images/beer-1a.png)
 
 This stack is **everything**.  Starts...
 
-- 1 x zookeeper
-- 3 x Kafka brokers
-- Kafka UI Manager
-- Prometheus
-- Grafana
+* 1 x zookeeper
+* 3 x Kafka brokers
+* Kafka UI Manager
+* Monitoring stack
+    - Prometheus (metrics database)
+    - Grafana (visualizing metrics)
+    - Caddy (proxying)
+    - Node exporter (to collect host metrics)
+    - Push gateway (to collect metrics)
+    - 3 x JMX collectors (to collect Kafka metrics)
 
-```bash
-$   bash ./start-kafka-full.sh
-```
-
-### Quickstart-4: Create a test topic
-
-**Single node setup***
-
-Login to a Kafka broker
-
-```bash
-# on a single node setup
-$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
-```
-
-And within container execute the following:
-
-Execute the following in Kafka docker
-
-```bash
-# See current topics
-$    kafka-topics --bootstrap-server kafka1:19092  --list
-
-# Create a new topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
-       --create --topic test --replication-factor 1  --partitions 2
-
-# Describe topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
-       --describe --topic test 
-```
-
-**Multi-node setup**
-
-Login to a kafka node
-
-```bash
-# choose the right docker-compose.yml
-# multi-node kafka
-$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
-
-# or on a full stack
-$   docker-compose  -f docker-compose-kafka-full.yml  exec  kafka1  bash
-```
-
-Execute the following in Kafka docker
-
-```bash
-# See current topics
-$    kafka-topics --bootstrap-server kafka1:19092  --list
-
-# Create a new topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
-       --create --topic test --replication-factor 3  --partitions 10
-
-# Describe topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
-       --describe --topic test 
-```
-
-### Quickstart-5: Console Consumer
-
-Login to a Kafka broker
-
-```bash
-# on a single node setup
-$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
-
-# on a multi node setup
-$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
-```
-
-And start console consumer
-
-```bash
-$    kafka-console-consumer --bootstrap-server kafka1:19092   \
-         --property print.key=true --property key.separator=":"  --topic test
-
-```
-
-### Quickstart-6: Console Producer
-
-Login to a Kafka broker
-
-```bash
-# on a single node setup
-$   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
-
-# on a multi node setup
-$   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka2  bash
-
-# on a full setup
-$   docker-compose  -f docker-compose-kafka-full.yml  exec  kafka2  bash
-```
-
-Run producer
-
-```bash
-$    kafka-console-producer --bootstrap-server kafka1:19092  --topic test
-```
-
-Type a few things like
-
-```text
-1
-2
-3
-4
-```
-
-And make sure you can see the output on console-consumer
-
-There we go.  Our Kafka brokers are up and running
-
-## Kafka Cluster Manager UI
-
-This stack includes a pretty nice UI by [Kafka cluster manager](https://github.com/yahoo/CMAK).  We can manage Kafka topics and brokers right from this UI and see metrics
-
-Go to [localhost:9000](localhost:9000) to access Kafka Manager UI.
-
-And register your Kafka cluster as follows
-
-![](images/kafka-manager-1.png)
+Read more: [quickstart-full.md](quickstart-full.md)
 
 ## Setup Explained
 
@@ -257,11 +156,15 @@ $   bash ./start-python-dev.sh
 $   python /python_kafka_test_client.py    kafka1:19092
 ```
 
-## Changes I Made
+## Some Changes
 
 **Maven settings.xml**
 
 [java/settings.xml](java/settings.xml) sets the default Maven repository to `/var/maven/.m2/repository`.  It is mapped to `/usr/share/maven/conf/settings.xml` on mvn image.
+
+**Caddy**
+
+We use Caddy for proxying traffic for Grafana and Prometheus.  This way the UIs work great in remote servers, not just localhost
 
 ## References
 
