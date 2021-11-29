@@ -32,3 +32,8 @@ scrape_configs:
     static_configs:
       - targets: ['nodeexporter:9100']
 
+
+  - job_name: 'pushgateway'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['pushgateway:9091']

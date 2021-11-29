@@ -153,6 +153,14 @@ services:
     networks:
       - kafka-net
 
+  pushgateway:
+    image: prom/pushgateway:v1.4.2
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
+    networks:
+      - kafka-net
+
 
   jmx-kafka1:
     image: sscaling/jmx-prometheus-exporter
