@@ -73,7 +73,7 @@ Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka
 On another terminal, login to another Kafka node
 
 ```bash
-$   docker-compose -f docker-compose-kafka-single.yml  exec kafka2  bash
+$   docker-compose -f docker-compose-kafka-multi.yml  exec kafka2  bash
 ```
 
 Within the kafka container, start the console producer
@@ -129,7 +129,7 @@ Start Java dev env:
 
 ```bash
 $   cd kafka-in-docker
-$   bash ./start-java-env.sh
+$   bash ./start-java-dev.sh
 ```
 
 This will drop you into `work` directory in the container.
