@@ -170,3 +170,9 @@ $   python  producer.py
 Now, observe output on console-consumer and java-consumer windows!  And check-out the Kafka-manager UI too.
 
 ![](images/kafka-single-5a.png)
+
+## Step-11: Shutdown
+
+```bash
+$   bash ./stop-kafka-multi.sh
+```

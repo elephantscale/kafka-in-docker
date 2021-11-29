@@ -216,3 +216,9 @@ Here is a sample Grafana UI with pre-defined dashboards.
 ### Kafka Topics Dashboard
 
 ![](images/kafka-full-5a.png)
+
+## Step-13: Shutdown
+
+```bash
+$   bash ./stop-kafka-full.sh
+```
