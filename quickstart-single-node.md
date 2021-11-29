@@ -125,7 +125,7 @@ Start Java dev env:
 
 ```bash
 $   cd kafka-in-docker
-$   bash ./start-java-env.sh
+$   bash ./start-java-dev.sh
 ```
 
 This will drop you into `work` directory in the container.

@@ -12,5 +12,5 @@ docker run -it --rm \
     --network  kafka-net \
     -v $(pwd)/work:/work:z   \
     -w /work \
-    kafka-python-dev  \
+    kafka-pydev  \
     /bin/bash
