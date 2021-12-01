@@ -9,7 +9,7 @@ docker-compose -f docker-compose-kafka-multi.yml  ps
 
 echo -e "\n------------------------------------------------------------------------------------------------------"
 echo -e "All services started!"
-echo -e "Kafka UI Manager : http://localhost:9000"
+echo -e "Kafka Manager UI : http://localhost:9000"
 echo -e "\n------------------------------------------------------------------------------------------------------"
 
 exit 0
