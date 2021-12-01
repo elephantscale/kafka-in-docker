@@ -25,10 +25,21 @@ scrape_configs:
     # scheme defaults to 'http'.
     scrape_interval: 10s
     static_configs:
-      - targets: ['jmx-kafka1:5556','jmx-kafka2:5556', 'jmx-kafka3:5556']
+      # - targets: ['jmx-kafka1:5556','jmx-kafka2:5556', 'jmx-kafka3:5556']
+      - targets: ['jmx-kafka1:5556']
+        labels:
+          instance: 'kafka1'
+      - targets: ['jmx-kafka2:5556']
+        labels:
+          instance: 'kafka2'
+      - targets: ['jmx-kafka3:5556']
+        labels:
+          instance: 'kafka3'
 
   - job_name: 'nodeexporter'
     scrape_interval: 10s
     static_configs:
       - targets: ['nodeexporter:9100']
+        labels:
+          instance: "docker host"
 
