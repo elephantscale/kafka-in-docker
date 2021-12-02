@@ -4,12 +4,14 @@ services:
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     ports:
-      - '2181:2181'
+      - 2181:2181
     restart: unless-stopped
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     volumes:
       - zookeeper_data:/bitnami/zookeeper
+    networks:
+      - kafka-net
 
   kafka1:
     image: 'bitnami/kafka:3'
@@ -31,6 +33,8 @@ services:
     volumes:
       - kafka1_data:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
+    networks:
+      - kafka-net
 
 
   kafka2:
@@ -53,6 +57,8 @@ services:
     volumes:
       - kafka2_data:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
+    networks:
+      - kafka-net
 
 
   kafka3:
@@ -75,11 +81,13 @@ services:
     volumes:
       - kafka3_data:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
+    networks:
+      - kafka-net
 
 
-  kafka-cluster-manager:
+  kafka-manager:
     build:
-      context: kafka-cluster-manager
+      context: kafka-manager
     depends_on:
       - zookeeper
     ports:
@@ -87,28 +95,8 @@ services:
     restart: unless-stopped
     environment:
       - ZK_HOSTS=zookeeper:2181
-
-
-  java-dev:  # java dev and maven build box
-    image: maven:3-jdk-11 
-    command: ["/bin/bash"]
-    working_dir: '/work'
-    user: ${CURRENT_USER}
-    volumes:
-      - ./.maven-m2-cache:/var/maven/.m2/  # this is for caching mvn downloads
-      - ./java-dev/settings.xml:/usr/share/maven/conf/settings.xml:ro   # for maven settings
-      - ./work:/work   # for sharing files from host
-
-
-  python-dev:
-    image: kafka-python-dev  # this is built locally
-    build:
-      context: python-dev
-    command: ["/bin/bash"]
-    working_dir: '/work'
-    user: ${CURRENT_USER}
-    volumes:
-      - ./work:/work   # for sharing files from host
+    networks:
+      - kafka-net
 
 
 volumes:
@@ -120,3 +108,8 @@ volumes:
     driver: local
   kafka3_data:
     driver: local
+
+networks:
+  kafka-net:
+    driver: bridge
+    name: kafka-net

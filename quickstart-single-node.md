@@ -41,14 +41,14 @@ We do this **within the `kafka1` container**, we just started.
 
 ```bash
 # See current topics
-$    kafka-topics --bootstrap-server kafka1:19092  --list
+$    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
 # Create a new topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
+$   kafka-topics.sh--bootstrap-server kafka1:19092   \
        --create --topic test --replication-factor 1  --partitions 2
 
 # Describe topic
-$   kafka-topics  --bootstrap-server kafka1:19092   \
+$   kafka-topics.sh--bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
@@ -57,7 +57,7 @@ $   kafka-topics  --bootstrap-server kafka1:19092   \
 We do this **within the `kafka1` container**, we just started.
 
 ```bash
-$    kafka-console-consumer --bootstrap-server kafka1:19092   \
+$    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
          --property print.key=true --property key.separator=":"  --topic test
 
 ```
@@ -77,7 +77,7 @@ Within the kafka container, start the console producer
 Run producer
 
 ```bash
-$    kafka-console-producer --bootstrap-server kafka1:19092  --topic test
+$    kafka-console-producer.sh --bootstrap-server kafka1:19092  --topic test
 ```
 
 Type a few lines into console producer terminal

@@ -117,12 +117,36 @@ $   ./start-java-dev.sh
 $   ./start-python-dev.sh
 ```
 
+## Checking running docker containers
+
+```bash
+# pick the correct docker-compose.yml
+$   docker-compose  -f docker-compose-kafka-multi.yml   ps
+```
+
 ## Reset Every thing
 
 Delete the docker volumes to clear all zookeeper / broker data
 
 ```bash
-$   docker-compose down -v
+# pick the correct docker-compose.yml
+$   docker-compose  -f docker-compose-kafka-multi.yml   down -v
+```
+
+## Inspecting Data on Docker Volumes
+
+```bash
+# inspect docker volumes
+$   docker volume ls
+
+# say we want to examine this volume : kafka-in-docker_kafka1_data
+$   docker run --rm -i -v=kafka-in-docker_kafka1_data:/volume busybox find /volume
+
+# or
+$   docker run --rm -i -v=kafka-in-docker_kafka1_data:/volume busybox find /volume -exec ls -l '{}' \;
+
+# interactive
+$   docker run --rm -it -v=kafka-in-docker_kafka1_data:/volume busybox ash
 ```
 
 ## Troubleshooting Kafka Broker Connectivity
