@@ -1,12 +1,23 @@
-# Yahoo Kafka Manager (CMAK)
+# Dockerized Yahoo CMAK (Formerly 'Kafka Manager')
 
-This is the popular : https://github.com/yahoo/CMAK
+This is the popular [Yahoo CMAK](https://github.com/yahoo/CMAK)
 
 ## Download this
 
 ```bash
 $   docker pull  elephantscale/cmak
 ```
+
+## Running on Single Kafka Instance
+
+### Start kafka on your local machine
+
+```bash
+# Go to where your Kafka is installed
+$   cd ~/apps/kafka  # or cd  /path/to/kafka
+
+# start zookeeper
+$    bin/zookeeper-server-start.sh    config/zookeeper.properties
 
 # start kafka
 $   JMX_PORT=9999  bin/kafka-server-start.sh -daemon \
@@ -69,9 +80,6 @@ For example, if you click on `Brokers` you will start seeing JMX stats showing u
 ```bash
 $   docker build .  -t cmak
 $   docker build .  -t elephantscale/cmak
-
-# to tag a specific version
-$   docker build .  -t elephantscale/cmak:3.0.0.6
 ```
 
 Pushing to docker hub
@@ -79,5 +87,4 @@ Pushing to docker hub
 ```bash
 $   docker login
 $   docker push  elephantscale/cmak
-$   docker push  elephantscale/cmak:3.0.0.6
 ```
