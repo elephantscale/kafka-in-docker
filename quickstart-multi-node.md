@@ -4,11 +4,11 @@
 
 Components started:
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
+![](images/z1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/km1.png)
 
 This stack has:
 
@@ -16,22 +16,14 @@ This stack has:
 - 3 x Kafka brokers
 - Kafka UI Manager
 
-## Step-1: Build Custom Docker Images
-
-Only need to do this once.
+## Step-1: Start the stack
 
 ```bash
-$   cd  kafka-in-docker
-$   bash ./build-images.sh
-```
-
-## Step-2: Start the stack
-
-```bash
+$   cd   kafka-in-docker
 $   bash start-kafka-multi.sh
 ```
 
-## Step-3: Login to a Kafka broker
+## Step-2: Login to a Kafka broker
 
 Login to a kafka node
 
@@ -39,7 +31,7 @@ Login to a kafka node
 $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 ```
 
-## Step-4: Create a Test Topic
+## Step-3: Create a Test Topic
 
 We do this **within the `kafka1` container**, we just started.
 
@@ -48,15 +40,15 @@ We do this **within the `kafka1` container**, we just started.
 $    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
 # Create a new topic
-$   kafka-topics.sh--bootstrap-server kafka1:19092   \
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --create --topic test --replication-factor 3  --partitions 10
 
 # Describe topic
-$   kafka-topics.sh--bootstrap-server kafka1:19092   \
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
-## Step-5: Start Console Consumer
+## Step-4: Start Console Consumer
 
 We do this **within the `kafka1` container**, we just started.
 
@@ -68,7 +60,7 @@ $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
 
 Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
 
-## Step-6: Start Console Producer
+## Step-5: Start Console Producer
 
 On another terminal, login to another Kafka node
 
@@ -95,7 +87,7 @@ Type a few lines into console producer terminal
 
 And watch it come out on console terminal
 
-## Step-7: Kafka Manager UI
+## Step-6: Kafka Manager UI
 
 Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
 
@@ -115,64 +107,12 @@ Click on broker id, to see more detailed stats on a broker.
 
 ![](images/kafka-multi-3.png)
 
-## Step-8: Developing Applications
-
-Let's develop a sample app in Java and Python.
-
-## Step-9: Java App
-
-We have a sample Java app in [work/sample-app-java](work/sample-app-java/)
-
-And we have a java development environent ready!  You don't even need to have Java or Maven installed on your computer :-) 
-
-Start Java dev env:
-
-```bash
-$   cd kafka-in-docker
-$   bash ./start-java-dev.sh
-```
-
-This will drop you into `work` directory in the container.
-
-The following commands are executed in Java container
-
-```bash
-$   cd sample-app-java
-
-# build the Java app
-$   mvn  clean package
-
-# Run Java consumer
-$    java -cp target/hello-kafka-1.0-jar-with-dependencies.jar   x.SimpleConsumer
-```
-
-## Step-10: Python app
-
-We have a sample python app in [work/sample-app-python](work/sample-app-python/)
-
-From another terminal, start python-dev environment
-
-```bash
-$   cd kafka-in-docker
-$   bash ./start-python-dev.sh
-```
-
-Within python container, try these
-
-```bash
-# we are currently in /work directory
-$   cd sample-app-python
-
-# run producer
-$   python  producer.py
-```
-
-Now, observe output on console-consumer and java-consumer windows!  And check-out the Kafka-manager UI too.
-
-![](images/kafka-single-5a.png)
-
-## Step-11: Shutdown
+## Step-7: Shutdown
 
 ```bash
 $   bash ./stop-kafka-multi.sh
 ```
+
+## Step-8: Developing Applications
+
+See [application development guide](kafka-dev/README.md)

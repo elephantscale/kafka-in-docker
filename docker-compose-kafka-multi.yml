@@ -3,18 +3,20 @@ services:
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
     ports:
       - 2181:2181
     restart: unless-stopped
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     volumes:
-      - zookeeper_data:/bitnami/zookeeper
+      - zookeeper_data_multi:/bitnami/zookeeper
     networks:
       - kafka-net
 
   kafka1:
     image: 'bitnami/kafka:3'
+    container_name: kafka1
     ports:
       - 19092   # just within docker network
       - '9092:9092'   # localhost mapping
@@ -31,7 +33,7 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka1_data:/bitnami/kafka
+      - kafka1_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
       - kafka-net
@@ -39,6 +41,7 @@ services:
 
   kafka2:
     image: 'bitnami/kafka:3'
+    container_name: kafka2
     ports:
       - 19092   # just within docker network
       - '9093:9093'   # localhost mapping
@@ -55,7 +58,7 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka2_data:/bitnami/kafka
+      - kafka2_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
       - kafka-net
@@ -63,6 +66,7 @@ services:
 
   kafka3:
     image: 'bitnami/kafka:3'
+    container_name: kafka3
     ports:
       - 19092   # just within docker network
       - '9094:9094'   # localhost mapping
@@ -79,15 +83,15 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka3_data:/bitnami/kafka
+      - kafka3_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
       - kafka-net
 
 
   kafka-manager:
-    build:
-      context: kafka-manager
+    image: 'elephantscale/cmak'
+    container_name: kafka-manager
     depends_on:
       - zookeeper
     ports:
@@ -100,13 +104,13 @@ services:
 
 
 volumes:
-  zookeeper_data:
+  zookeeper_data_multi:
     driver: local
-  kafka1_data:
+  kafka1_data_multi:
     driver: local
-  kafka2_data:
+  kafka2_data_multi:
     driver: local
-  kafka3_data:
+  kafka3_data_multi:
     driver: local
 
 networks:

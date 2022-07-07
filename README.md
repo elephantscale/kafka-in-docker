@@ -14,32 +14,23 @@ There are different configurations to fit your needs:
 $   git clone https://github.com/elephantscale/kafka-in-docker
 ```
 
-### Quickstart: Build docker containers
-
-We do use some custom built containers.  Only have to do this once
-
-```bash
-$   cd  kafka-in-docker
-$   bash ./build-images.sh
-```
-
 ## Quick start - Single Node Kafka
 
-![](images/z.png)
-![](images/k.png)
-![](images/km.png)
+![](images/z1.png)
+![](images/k1.png)
+![](images/km1.png)
 
-Read more: [quickstart-single-node.md](quickstart-single-node.md)
+[quickstart-single-node.md](quickstart-single-node.md)
 
 ## Quick Start - Multi Node Kafka
 
-![](images/z.png)
-![](images/k.png)
-![](images/k.png)
-![](images/k.png)
-![](images/km.png)
+![](images/z1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/km1.png)
 
-Read more: [quickstart-multi-node.md](quickstart-multi-node.md)
+[quickstart-multi-node.md](quickstart-multi-node.md)
 
 ## Quick start - Multi broker Kafka + Monitoring stack
 
