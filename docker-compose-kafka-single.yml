@@ -3,6 +3,7 @@ services:
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
     ports:
       - 2181:2181
     restart: unless-stopped
@@ -15,6 +16,7 @@ services:
 
   kafka1:
     image: 'bitnami/kafka:3'
+    container_name: kafka1
     ports:
       - 19092   # just within docker network
       - '9092:9092'   # localhost mapping
@@ -38,8 +40,8 @@ services:
 
 
   kafka-manager:
-    build:
-      context: kafka-manager
+    image: 'elephantscale/cmak'
+    container_name: kafka-manager
     depends_on:
       - zookeeper
     ports:

@@ -4,9 +4,9 @@
 
 Components started :
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
+<img src="images/z1.png" style="border:3px solid;"/>
+<img src="images/k1.png" style="border:3px solid;"/>
+<img src="images/km1.png" style="border:3px solid;"/>
 
 This stack has:
 
@@ -29,30 +29,52 @@ $   bash ./build-images.sh
 $   bash start-kafka-single.sh
 ```
 
-## Step-3: Login to a Kafka broker
+## Step-3: Kafka Manager UI
+
+Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
+
+Register our new Kafka cluster as follows
+
+![](images/kafka-single-1.png)
+
+Once registered, you will see topics and brokers displayed like this.
+
+![](images/kafka-single-2.png)
+
+Click on the brokers, and you will see broker details.  You can also see JMX metrics are published!
+
+![](images/kafka-single-3.png)
+
+Click on broker id, to see more detailed stats on a broker.
+
+![](images/kafka-single-4.png)
+
+## Step-4: Login to a Kafka broker
 
 ```bash
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
-## Step-4: Create a Test Topic
+## Step-5: Create a Test Topic
 
 We do this **within the `kafka1` container**, we just started.
+
+Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
 
 ```bash
 # See current topics
 $    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
 # Create a new topic
-$   kafka-topics.sh--bootstrap-server kafka1:19092   \
+$   kafka-topics.sh   --bootstrap-server kafka1:19092   \
        --create --topic test --replication-factor 1  --partitions 2
 
 # Describe topic
-$   kafka-topics.sh--bootstrap-server kafka1:19092   \
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
-## Step-5: Start Console Consumer
+## Step-6: Start Console Consumer
 
 We do this **within the `kafka1` container**, we just started.
 
@@ -62,9 +84,7 @@ $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
 
 ```
 
-Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
-
-## Step-6: Start Console Producer
+## Step-7: Start Console Producer
 
 On another terminal, login to Kafka node again
 
@@ -91,82 +111,78 @@ Type a few lines into console producer terminal
 
 And watch it come out on console terminal
 
-## Step-7: Kafka Manager UI
+## Step-8: Using kcat (KafkaCat)
 
-Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
+[kcat](https://github.com/edenhill/kcat)  is a very handy utillity for Kafka
 
-Register our new Kafka cluster as follows
+We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/repository/docker/elephantscale/kafka-dev)
 
-![](images/kafka-manager-1.png)
+### Start kafka-dev container
 
-Once registered, you will see topics and brokers displayed like this.
+Few notes:
 
-![](images/kafka-single-2.png)
-
-Click on the brokers, and you will see broker details.  You can also see JMX metrics are published!
-
-![](images/kafka-single-3.png)
-
-Click on broker id, to see more detailed stats on a broker.
-
-![](images/kafka-single-4.png)
-
-## Step-8: Developing Applications
-
-Let's develop a sample app in Java and Python.
-
-## Step-9: Java App
-
-We have a sample Java app in [work/sample-app-java](work/sample-app-java/)
-
-And we have a java development environent ready!  You don't even need to have Java or Maven installed on your computer :-) 
-
-Start Java dev env:
+- We are starting the docker container as `CURRENT_USER`,  so files created within the container will by owned by current user
+- Also the current directory is mapped as `workspace` within the container.  Create all files here
 
 ```bash
-$   cd kafka-in-docker
-$   bash ./start-java-dev.sh
+export CURRENT_USER="$(id -u):$(id -g)"
+
+docker run -it --rm \
+    --user $CURRENT_USER \
+    --network  kafka-net \
+    -v $(pwd):/workspace:z   \
+    -w /workspace \
+    elephantscale/kafka-dev 
 ```
 
-This will drop you into `work` directory in the container.
-
-The following commands are executed in Java container
+### Start another kafka-dev instance
 
 ```bash
-$   cd sample-app-java
+export CURRENT_USER="$(id -u):$(id -g)"
 
-# build the Java app
-$   mvn  clean package
-
-# Run Java consumer
-$    java -cp target/hello-kafka-1.0-jar-with-dependencies.jar   x.SimpleConsumer
+docker run -it --rm \
+    --user $CURRENT_USER \
+    --network  kafka-net \
+    -v $(pwd):/workspace:z   \
+    -w /workspace \
+    elephantscale/kafka-dev
 ```
 
-## Step-10: Python app
-
-From another terminal, start python-dev environment
+Check if kcat is working fine...
 
 ```bash
-$   cd kafka-in-docker
-$   bash ./start-python-dev.sh
+$    kafkacat -L   -b   kafka1:19092
 ```
 
-Within python container, try these
+In one of the kafka-dev instance, start a consumer
 
 ```bash
-# we are currently in /work directory
-$   cd sample-app-python
-
-# run producer
-$   python  producer.py
+$   kafkacat   -b kafka1:19092  -t test  -K :   -C
 ```
 
-Now, observe output on console-consumer and java-consumer windows!  And check-out the Kafka-manager UI too.
+In the other kafka-dev instance, start producer
 
-![](images/kafka-single-5a.png)
+```bash
+$   kafkacat   -b kafka1:19092  -t test  -K :   -P
+```
 
-## Step-11: Shutdown
+Type data like this, in key-value format, in the producer terminal
+
+```text
+a:1
+b:1
+a:2
+b:2
+```
+
+And see it come out on the kafkacat consumer terminal
+
+## Step-9: Shutdown
 
 ```bash
 $   bash ./stop-kafka-single.sh
 ```
+
+## Step-10: Developing Applications
+
+See [application development guide](kafka-dev/README.md)

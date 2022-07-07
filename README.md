@@ -25,33 +25,19 @@ $   bash ./build-images.sh
 
 ## Quick start - Single Node Kafka
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-
-Simplest setup to start with.
-
-This stack has:
-
-- 1 x Zookeeper
-- 1 x Kafka broker
-- Kafka UI Manager
+![](images/z.png)
+![](images/k.png)
+![](images/km.png)
 
 Read more: [quickstart-single-node.md](quickstart-single-node.md)
 
 ## Quick Start - Multi Node Kafka
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-
-This stack has:
-
-- 1 x Zookeeper
-- 3 x Kafka brokers
-- Kafka UI Manager
+![](images/z.png)
+![](images/k.png)
+![](images/k.png)
+![](images/k.png)
+![](images/km.png)
 
 Read more: [quickstart-multi-node.md](quickstart-multi-node.md)
 

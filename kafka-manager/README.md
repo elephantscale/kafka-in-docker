@@ -2,6 +2,8 @@
 
 This is the popular [Yahoo CMAK](https://github.com/yahoo/CMAK)
 
+[elephantscale/cmak @ dockerhub](https://hub.docker.com/repository/docker/elephantscale/cmak)
+
 ## Download this
 
 ```bash

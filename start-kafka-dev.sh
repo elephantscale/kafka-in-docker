@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# we need this so docker-compose can start the container as current user
 export CURRENT_USER="$(id -u):$(id -g)"
 # echo $CURRENT_USER
 
@@ -11,9 +10,7 @@ docker run -it --rm \
     --user $CURRENT_USER \
     --network  kafka-net \
     -v $HOME/.m2:/var/maven/.m2  \
-    -v $(pwd)/config/maven/settings.xml:/usr/share/maven/conf/settings.xml:ro   \
-    -v $(pwd)/work:/work:z   \
-    -w /work \
-    maven:3-jdk-11  \
-    /bin/bash
+    -v $(pwd):/workspace:z   \
+    -w /workspace \
+    elephantscale/kafka-dev
 
