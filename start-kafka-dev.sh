@@ -1,6 +1,7 @@
 #!/bin/bash
 
-export CURRENT_USER="$(id -u):$(id -g)"
+# set CURRENT_USER if not set
+export CURRENT_USER="${CURRENT_USER-$(id -u):$(id -g)}"
 # echo $CURRENT_USER
 
 # make maven build dir, if doesn't exist
