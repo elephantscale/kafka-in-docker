@@ -2,12 +2,12 @@
 
 This is the popular [Yahoo CMAK](https://github.com/yahoo/CMAK)
 
-[elephantscale/cmak @ dockerhub](https://hub.docker.com/repository/docker/elephantscale/cmak)
+[elephantscale/kafka-manager @ dockerhub](https://hub.docker.com/r/elephantscale/kafka-manager)
 
 ## Download this
 
 ```bash
-$   docker pull  elephantscale/cmak
+$   docker pull  elephantscale/kafka-manager
 ```
 
 ## Running on Single Kafka Instance
@@ -33,34 +33,34 @@ A few things to note
 * The default configuration looks for zookeeper in `localhost:2181,zookeeper:2181`
 * You want to start the networking in `host` mode.  This way it can find zookeeper  at `localhost:2181`
 * And map the port 9000 to container
-* And we are naming our container `cmak` for easy identification
+* And we are naming our container `kafka-manager` for easy identification
 
 ```bash
-$   docker run -d --rm --name cmak -p 9000:9000 \
+$   docker run -d --rm --name kafka-manager -p 9000:9000 \
                --net host  \
-               elephantscale/cmak
+               elephantscale/kafka-manager
 ```
 
-Go to [localhost:9000](http://localhost:9000) in your browser and you will see CMAK UI!
+Go to [localhost:9000](http://localhost:9000) in your browser and you will see kafka-manager UI!
 
-See [Using CMAK](#using-cmak) section below.
+See [Using kafka-manager](#using-kafka-manager) section below.
 
 ### Stopping Kafka Manager Container
 
 ```bash
-$   docker stop cmak  # if you named the container as cmak
+$   docker stop kafka-manager  # if you named the container as kafka-manager
 
 # or 
 $   docker ps
-# identify the CMAK container id
+# identify the kafka-manager container id
 $   docker stop   aaaabbbbccc
 ```
 
-## Using CMAK
+## Using Kafka Manager
 
 ### Register a Kafka Cluster
 
-![](images/cmak-1.png)
+![](images/kafka-manager-1.png)
 
 ### Register a Kafka Cluster with these Properties
 
@@ -69,24 +69,25 @@ $   docker stop   aaaabbbbccc
 * Enable JMX polling
 * Enable consumer polling
 
-![](images/cmak-2.png)
+![](images/kafka-manager-2.png)
 
 ### Click around and enjoy
 
 For example, if you click on `Brokers` you will start seeing JMX stats showing up!
 
-![](images/cmak-3.png)
+![](images/kafka-manager-3.png)
 
 ## To Build Docker Image (Devs only)
 
 ```bash
-$   docker build .  -t cmak
-$   docker build .  -t elephantscale/cmak
+$   docker build .  -t elephantscale/kafka-manager
+$   docker build .  -t elephantscale/kafka-manager:3.0.0.6
 ```
 
 Pushing to docker hub
 
 ```bash
 $   docker login
-$   docker push  elephantscale/cmak
+$   docker push  elephantscale/kafka-manager
+$   docker push  elephantscale/kafka-manager:3.0.0.6
 ```
