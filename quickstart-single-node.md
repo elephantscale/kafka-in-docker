@@ -52,6 +52,8 @@ Click on broker id, to see more detailed stats on a broker.
 ```bash
 # on docker host
 
+$   cd   kafka-in-docker
+
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
@@ -95,6 +97,8 @@ On another terminal, login to Kafka node again
 ```bash
 # on docker host
 
+$   cd   kafka-in-docker
+
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
@@ -123,7 +127,7 @@ And watch it come out on console terminal
 
 [kcat](https://github.com/edenhill/kcat)  is a very handy utillity for Kafka
 
-We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/repository/docker/elephantscale/kafka-dev)
+We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/r/elephantscale/kafka-dev)
 
 ### Start kafka-dev container
 
