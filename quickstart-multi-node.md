@@ -19,6 +19,8 @@ This stack has:
 ## Step-1: Start the stack
 
 ```bash
+# on docker host
+
 $   cd   kafka-in-docker
 $   bash start-kafka-multi.sh
 ```
@@ -28,6 +30,8 @@ $   bash start-kafka-multi.sh
 Login to a kafka node
 
 ```bash
+# on docker host
+
 $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 ```
 
@@ -36,6 +40,8 @@ $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 We do this **within the `kafka1` container**, we just started.
 
 ```bash
+# within docker container
+
 # See current topics
 $    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
@@ -53,9 +59,10 @@ $   kafka-topics.sh  --bootstrap-server kafka1:19092   \
 We do this **within the `kafka1` container**, we just started.
 
 ```bash
+# within docker container
+
 $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
          --property print.key=true --property key.separator=":"  --topic test
-
 ```
 
 Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
@@ -65,6 +72,8 @@ Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka
 On another terminal, login to another Kafka node
 
 ```bash
+# on docker host
+
 $   docker-compose -f docker-compose-kafka-multi.yml  exec kafka2  bash
 ```
 
@@ -73,6 +82,8 @@ Within the kafka container, start the console producer
 Run producer
 
 ```bash
+# within docker container
+
 $    kafka-console-producer.sh --bootstrap-server kafka2:19092  --topic test
 ```
 
@@ -110,6 +121,8 @@ Click on broker id, to see more detailed stats on a broker.
 ## Step-7: Shutdown
 
 ```bash
+# on docker host
+
 $   bash ./stop-kafka-multi.sh
 ```
 

@@ -12,14 +12,14 @@ services:
     volumes:
       - zookeeper_data_multi:/bitnami/zookeeper
     networks:
-      - kafka-net
+      - bobafett-net
 
   kafka1:
     image: 'bitnami/kafka:3'
     container_name: kafka1
     ports:
       - 19092   # just within docker network
-      - '9092:9092'   # localhost mapping
+      - 9092:9092   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=1
@@ -36,7 +36,7 @@ services:
       - kafka1_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka2:
@@ -44,7 +44,7 @@ services:
     container_name: kafka2
     ports:
       - 19092   # just within docker network
-      - '9093:9093'   # localhost mapping
+      - 9093:9093   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=2
@@ -61,7 +61,7 @@ services:
       - kafka2_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka3:
@@ -69,7 +69,7 @@ services:
     container_name: kafka3
     ports:
       - 19092   # just within docker network
-      - '9094:9094'   # localhost mapping
+      - 9094:9094   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=3
@@ -86,21 +86,21 @@ services:
       - kafka3_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka-manager:
-    image: 'elephantscale/cmak'
+    image: 'elephantscale/kafka-manager'
     container_name: kafka-manager
     depends_on:
       - zookeeper
     ports:
-      - '9000:9000'   # localhost mapping
+      - 9000:9000   # localhost mapping
     restart: unless-stopped
     environment:
       - ZK_HOSTS=zookeeper:2181
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 volumes:
@@ -114,6 +114,6 @@ volumes:
     driver: local
 
 networks:
-  kafka-net:
+  bobafett-net:
     driver: bridge
-    name: kafka-net
+    name: bobafett-net
