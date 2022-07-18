@@ -17,6 +17,7 @@ This stack has:
 ## Step-1: Start the stack
 
 ```bash
+# on docker host
 $   cd  kafka-in-docker
 $   bash start-kafka-single.sh
 ```
@@ -26,6 +27,11 @@ $   bash start-kafka-single.sh
 Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
 
 Register our new Kafka cluster as follows
+
+- Cluster name : `kafka1`  (anything you like)
+- Zookeeper : `zookeeper:2181`  (must be exact)
+- Enable `JMX polling`
+- Enable `consumer polling`
 
 ![](images/kafka-single-1.png)
 
@@ -44,6 +50,8 @@ Click on broker id, to see more detailed stats on a broker.
 ## Step-3: Login to a Kafka broker
 
 ```bash
+# on docker host
+
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
@@ -54,6 +62,8 @@ We do this **within the `kafka1` container**, we just started.
 Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
 
 ```bash
+# within docker container
+
 # See current topics
 $    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
@@ -71,6 +81,8 @@ $   kafka-topics.sh  --bootstrap-server kafka1:19092   \
 We do this **within the `kafka1` container**, we just started.
 
 ```bash
+# within docker container
+
 $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
          --property print.key=true --property key.separator=":"  --topic test
 
@@ -81,6 +93,8 @@ $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
 On another terminal, login to Kafka node again
 
 ```bash
+# on docker host
+
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
@@ -89,6 +103,8 @@ Within the kafka container, start the console producer
 Run producer
 
 ```bash
+# within docker container
+
 $    kafka-console-producer.sh --bootstrap-server kafka1:19092  --topic test
 ```
 
@@ -112,32 +128,44 @@ We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/re
 ### Start kafka-dev container
 
 ```bash
+# on docker host
+
 $   cd   kafka-in-docker
 $   ./kafka-dev/run-kafka-dev.sh
+```
+
+Within the kafka-dev container, check if kcat is working fine...
+
+```bash
+# within docker container
+
+$    kafkacat -L   -b   kafka1:19092
+```
+
+Within kafka-dev container, start a consumer
+
+```bash
+# within docker container
+
+$   kafkacat   -b kafka1:19092  -t test  -K :   -C
 ```
 
 ### Start another kafka-dev instance
 
+Start another 'kafka-dev` instance as follows
+
 ```bash
+# on docker host
+
 $   cd   kafka-in-docker
 $   ./kafka-dev/run-kafka-dev.sh
-```
-
-Within the container, check if kcat is working fine...
-
-```bash
-$    kafkacat -L   -b   kafka1:19092
-```
-
-In one of the kafka-dev instance, start a consumer
-
-```bash
-$   kafkacat   -b kafka1:19092  -t test  -K :   -C
 ```
 
 In the other kafka-dev instance, start producer
 
 ```bash
+# within docker container
+
 $   kafkacat   -b kafka1:19092  -t test  -K :   -P
 ```
 
@@ -155,6 +183,8 @@ And see it come out on the kafkacat consumer terminal
 ## Step-8: Shutdown
 
 ```bash
+# on docker host
+
 $   bash ./stop-kafka-single.sh
 ```
 

@@ -25,4 +25,13 @@ COPY ./python_kafka_test_client.py /
 ## maven config
 COPY ./maven-settings.xml   /usr/share/maven/conf/settings.xml
 
+# Setup Kafka in /usr/local/kafka
+RUN   cd /usr/local && \
+      wget -q https://dlcdn.apache.org/kafka/3.2.0/kafka_2.12-3.2.0.tgz && \
+      tar xf kafka_2.12-3.2.0.tgz && \
+      mv kafka_2.12-3.2.0    kafka  && \
+      rm -f kafka_2.12-3.2.0.tgz
+
+ENV PATH  ${PATH}:/usr/local/kafka/bin
+
 CMD [ "/bin/bash"]
