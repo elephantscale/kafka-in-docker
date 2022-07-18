@@ -4,9 +4,9 @@
 
 Components started :
 
-<img src="images/z1.png" style="border:3px solid;"/>
-<img src="images/k1.png" style="border:3px solid;"/>
-<img src="images/km1.png" style="border:3px solid;"/>
+![](images/z1.png)
+![](images/k1.png)
+![](images/km1.png)
 
 This stack has:
 
@@ -14,22 +14,14 @@ This stack has:
 - 1 x Kafka broker
 - Kafka UI Manager
 
-## Step-1: Build Custom Docker Images
-
-Only need to do this once.
+## Step-1: Start the stack
 
 ```bash
 $   cd  kafka-in-docker
-$   bash ./build-images.sh
-```
-
-## Step-2: Start the stack
-
-```bash
 $   bash start-kafka-single.sh
 ```
 
-## Step-3: Kafka Manager UI
+## Step-2: Kafka Manager UI
 
 Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
 
@@ -49,13 +41,13 @@ Click on broker id, to see more detailed stats on a broker.
 
 ![](images/kafka-single-4.png)
 
-## Step-4: Login to a Kafka broker
+## Step-3: Login to a Kafka broker
 
 ```bash
 $   docker-compose -f docker-compose-kafka-single.yml  exec kafka1  bash
 ```
 
-## Step-5: Create a Test Topic
+## Step-4: Create a Test Topic
 
 We do this **within the `kafka1` container**, we just started.
 
@@ -74,7 +66,7 @@ $   kafka-topics.sh  --bootstrap-server kafka1:19092   \
        --describe --topic test 
 ```
 
-## Step-6: Start Console Consumer
+## Step-5: Start Console Consumer
 
 We do this **within the `kafka1` container**, we just started.
 
@@ -84,7 +76,7 @@ $    kafka-console-consumer.sh  --bootstrap-server kafka1:19092   \
 
 ```
 
-## Step-7: Start Console Producer
+## Step-6: Start Console Producer
 
 On another terminal, login to Kafka node again
 
@@ -111,7 +103,7 @@ Type a few lines into console producer terminal
 
 And watch it come out on console terminal
 
-## Step-8: Using kcat (KafkaCat)
+## Step-7: Using kcat (KafkaCat)
 
 [kcat](https://github.com/edenhill/kcat)  is a very handy utillity for Kafka
 
@@ -119,36 +111,19 @@ We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/re
 
 ### Start kafka-dev container
 
-Few notes:
-
-- We are starting the docker container as `CURRENT_USER`,  so files created within the container will by owned by current user
-- Also the current directory is mapped as `workspace` within the container.  Create all files here
-
 ```bash
-export CURRENT_USER="$(id -u):$(id -g)"
-
-docker run -it --rm \
-    --user $CURRENT_USER \
-    --network  kafka-net \
-    -v $(pwd):/workspace:z   \
-    -w /workspace \
-    elephantscale/kafka-dev 
+$   cd   kafka-in-docker
+$   ./kafka-dev/run-kafka-dev.sh
 ```
 
 ### Start another kafka-dev instance
 
 ```bash
-export CURRENT_USER="$(id -u):$(id -g)"
-
-docker run -it --rm \
-    --user $CURRENT_USER \
-    --network  kafka-net \
-    -v $(pwd):/workspace:z   \
-    -w /workspace \
-    elephantscale/kafka-dev
+$   cd   kafka-in-docker
+$   ./kafka-dev/run-kafka-dev.sh
 ```
 
-Check if kcat is working fine...
+Within the container, check if kcat is working fine...
 
 ```bash
 $    kafkacat -L   -b   kafka1:19092
@@ -177,12 +152,12 @@ b:2
 
 And see it come out on the kafkacat consumer terminal
 
-## Step-9: Shutdown
+## Step-8: Shutdown
 
 ```bash
 $   bash ./stop-kafka-single.sh
 ```
 
-## Step-10: Developing Applications
+## Step-9: Developing Applications
 
 See [application development guide](kafka-dev/README.md)

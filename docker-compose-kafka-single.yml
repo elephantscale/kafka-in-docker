@@ -12,7 +12,7 @@ services:
     volumes:
       - zookeeper_data_single:/bitnami/zookeeper
     networks:
-      - kafka-net
+      - bobafett-net
 
   kafka1:
     image: 'bitnami/kafka:3'
@@ -36,11 +36,11 @@ services:
       - kafka1_data_single:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka-manager:
-    image: 'elephantscale/cmak'
+    image: 'elephantscale/kafka-manager'
     container_name: kafka-manager
     depends_on:
       - zookeeper
@@ -50,7 +50,7 @@ services:
     environment:
       - ZK_HOSTS=zookeeper:2181
     networks:
-      - kafka-net
+      - bobafett-net
 
       
 
@@ -61,6 +61,6 @@ volumes:
     driver: local
 
 networks:
-  kafka-net:
+  bobafett-net:
     driver: bridge
-    name: kafka-net
+    name: bobafett-net
