@@ -31,6 +31,7 @@ Login to a kafka node
 
 ```bash
 # on docker host
+$   cd   kafka-in-docker
 
 $   docker-compose  -f docker-compose-kafka-multi.yml  exec  kafka1  bash
 ```
@@ -73,6 +74,8 @@ On another terminal, login to another Kafka node
 
 ```bash
 # on docker host
+
+$   cd   kafka-in-docker
 
 $   docker-compose -f docker-compose-kafka-multi.yml  exec kafka2  bash
 ```
