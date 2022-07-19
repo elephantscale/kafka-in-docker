@@ -135,7 +135,7 @@ We can run it by running the [elephantscale/kafka-dev](https://hub.docker.com/r/
 # on docker host
 
 $   cd   kafka-in-docker
-$   ./kafka-dev/run-kafka-dev.sh
+$   bash kafka-dev/run-kafka-dev.sh
 ```
 
 Within the kafka-dev container, check if kcat is working fine...
@@ -162,7 +162,7 @@ Start another 'kafka-dev` instance as follows
 # on docker host
 
 $   cd   kafka-in-docker
-$   ./kafka-dev/run-kafka-dev.sh
+$   bash kafka-dev/run-kafka-dev.sh
 ```
 
 In the other kafka-dev instance, start producer

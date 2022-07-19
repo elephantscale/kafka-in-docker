@@ -66,7 +66,7 @@ Start the container from the project root directory
 # on docker host
 
 $   cd   kafka-in-docker
-$   ./kafka-dev/run-kafka-dev.sh
+$   bash kafka-dev/run-kafka-dev.sh
 ```
 
 Now you are within the container.  We will try a quick python test
@@ -174,7 +174,7 @@ Start another kafka-dev instance as follows:
 # on docker host
 
 $   cd kafka-in-docker
-$   bash ./kafka-dev/run-kafka-dev.sh
+$   bash bash kafka-dev/run-kafka-dev.sh
 ```
 
 Within container, try the following:
