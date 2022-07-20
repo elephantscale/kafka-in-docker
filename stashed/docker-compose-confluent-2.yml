@@ -15,7 +15,7 @@ services:
     volumes:
       - 'zookeeper_data:/var/lib/zookeeper:z'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka1:
@@ -40,7 +40,7 @@ services:
     volumes:
       - 'kafka1_data:/var/lib/kafka:z'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka2:
@@ -65,7 +65,7 @@ services:
     volumes:
       - 'kafka2_data:/var/lib/kafka:z'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka3:
@@ -90,7 +90,7 @@ services:
     volumes:
       - 'kafka3_data:/var/lib/kafka:z'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
@@ -105,7 +105,7 @@ services:
     environment:
       - 'ZK_HOSTS=zookeeper:2181'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   grafana:
@@ -121,7 +121,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
@@ -133,7 +133,7 @@ services:
       - './config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
     command: '--config.file=/etc/prometheus/prometheus.yml'
     networks:
-      - kafka-net
+      - bobafett-net
 
   nodeexporter:
     image: prom/node-exporter:v1.3.0
@@ -151,7 +151,7 @@ services:
     ports:
       - 9100
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   jmx-kafka1:
@@ -166,7 +166,7 @@ services:
     depends_on:
       - kafka1
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
@@ -182,7 +182,7 @@ services:
     depends_on:
       - kafka2
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
@@ -198,7 +198,7 @@ services:
     depends_on:
       - kafka3
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
@@ -210,7 +210,7 @@ services:
     volumes:
       - './config/caddy:/etc/caddy'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 volumes:
@@ -225,6 +225,6 @@ volumes:
 
 
 networks:
-  kafka-net:
+  bobafett-net:
     driver: bridge
-    name: kafka-net
+    name: bobafett-net
