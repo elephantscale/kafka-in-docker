@@ -3,9 +3,9 @@
 export CURRENT_USER="$(id -u):$(id -g)"
 # echo $CURRENT_USER
 
-docker-compose -f docker-compose-kafka-full.yml  up -d
+docker-compose -f docker-compose-kafka-metrics.yml  up -d
 
-docker-compose -f docker-compose-kafka-full.yml  ps
+docker-compose -f docker-compose-kafka-metrics.yml  ps
 
 echo -e "\n------------------------------------------------------------------------------------------------------"
 echo -e "All services started!"

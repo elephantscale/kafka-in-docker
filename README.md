@@ -14,15 +14,15 @@ There are different configurations to fit your needs:
 $   git clone https://github.com/elephantscale/kafka-in-docker
 ```
 
-## Quick start - Single Node Kafka
+## Quick start - Single Broker Kafka
 
 ![](images/z1.png)
 ![](images/k1.png)
 ![](images/km1.png)
 
-[quickstart-single-node.md](quickstart-single-node.md)
+[quickstart-single-broker.md](quickstart-single-broker.md)
 
-## Quick Start - Multi Node Kafka
+## Quick Start - Multi Broker Kafka
 
 ![](images/z1.png)
 ![](images/k1.png)
@@ -30,15 +30,16 @@ $   git clone https://github.com/elephantscale/kafka-in-docker
 ![](images/k1.png)
 ![](images/km1.png)
 
-[quickstart-multi-node.md](quickstart-multi-node.md)
+[quickstart-multi-broker.md](quickstart-multi-broker.md)
 
 ## Quick start - Multi broker Kafka + Monitoring stack
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
+![](images/z1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/k1.png)
+![](images/km1.png)
+
 ![](images/beer-1a.png)
 ![](images/beer-1a.png)
 ![](images/beer-1a.png)
@@ -61,7 +62,7 @@ This stack is **everything**.  Starts...
     - Push gateway (to collect metrics)
     - 3 x JMX collectors (to collect Kafka metrics)
 
-Read more: [quickstart-full.md](quickstart-full.md)
+Read more: [quickstart-metrics.md](quickstart-metrics.md)
 
 ## Setup Explained
 

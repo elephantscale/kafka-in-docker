@@ -29,86 +29,17 @@ This stack is **everything**.  Starts...
     - Push gateway (to collect metrics)
     - 3 x JMX collectors (to collect Kafka metrics)
 
-## Step-1: Build Custom Docker Images
 
-Only need to do this once.
-
-```bash
-$   cd  kafka-in-docker
-$   bash ./build-images.sh
-```
-
-## Step-2: Start the stack
+## Step-1: Start the stack
 
 ```bash
+# on docker host
+
+$   cd kafka-in-docker
 $   bash start-kafka-full.sh
 ```
 
-## Step-3: Login to a Kafka broker
-
-Login to a kafka node
-
-```bash
-$   docker-compose  -f docker-compose-kafka-full.yml  exec  kafka1  bash
-```
-
-## Step-4: Create a Test Topic
-
-We do this **within the `kafka1` container**, we just started.
-
-```bash
-# See current topics
-$    kafka-topics.sh --bootstrap-server kafka1:19092  --list
-
-# Create a new topic
-$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
-       --create --topic test --replication-factor 3  --partitions 10
-
-# Describe topic
-$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
-       --describe --topic test 
-```
-
-## Step-5: Start Console Consumer
-
-We do this **within the `kafka1` container**, we just started.
-
-```bash
-$    kafka-console-consumer.sh --bootstrap-server kafka1:19092   \
-         --property print.key=true --property key.separator=":"  --topic test
-
-```
-
-Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
-
-## Step-6: Start Console Producer
-
-On another terminal, login to another Kafka node
-
-```bash
-$   docker-compose -f docker-compose-kafka-full.yml  exec kafka2  bash
-```
-
-Within the kafka container, start the console producer
-
-Run producer
-
-```bash
-$    kafka-console-producer.sh --bootstrap-server kafka2:19092  --topic test
-```
-
-Type a few lines into console producer terminal
-
-```text
-1
-2
-3
-4
-```
-
-And watch it come out on console terminal
-
-## Step-7: Kafka Manager UI
+## Step-2: Kafka Manager UI
 
 Access Kafka Manager UI on url : [http://localhost:9000](http://localhost:9000)
 
@@ -128,63 +59,84 @@ Click on broker id, to see more detailed stats on a broker.
 
 ![](images/kafka-multi-3.png)
 
-## Step-8: Developing Applications
+## Step-3: Login to a Kafka broker
 
-Let's develop a sample app in Java and Python.
-
-## Step-9: Java App
-
-We have a sample Java app in [work/sample-app-java](work/sample-app-java/)
-
-And we have a java development environent ready!  You don't even need to have Java or Maven installed on your computer :-) 
-
-Start Java dev env:
+Login to a kafka node
 
 ```bash
+# on docker host
+
 $   cd kafka-in-docker
-$   bash ./start-java-dev.sh
+$   docker-compose  -f docker-compose-kafka-metrics.yml  exec  kafka1  bash
 ```
 
-This will drop you into `work` directory in the container.
+## Step-4: Create a Test Topic
 
-The following commands are executed in Java container
+We do this **within the `kafka1` container**, we just started.
 
 ```bash
-$   cd sample-app-java
+# within container
 
-# build the Java app
-$   mvn  clean package
+# See current topics
+$    kafka-topics.sh --bootstrap-server kafka1:19092  --list
 
-# Run Java consumer
-$    java -cp target/hello-kafka-1.0-jar-with-dependencies.jar   x.SimpleConsumer
+# Create a new topic
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
+       --create --topic test --replication-factor 3  --partitions 10
+
+# Describe topic
+$   kafka-topics.sh  --bootstrap-server kafka1:19092   \
+       --describe --topic test 
 ```
 
-## Step-10: Python app
+## Step-5: Start Console Consumer
 
-We have a sample python app in [work/sample-app-python](work/sample-app-python/)
-
-From another terminal, start python-dev environment
+We do this **within the `kafka1` container**, we just started.
 
 ```bash
+# within container
+
+$    kafka-console-consumer.sh --bootstrap-server kafka1:19092   \
+         --property print.key=true --property key.separator=":"  --topic test
+
+```
+
+Note, our kafka bootstrap server is `kafka1:19092`, this is the advertised kafka broker address in docker network.
+
+## Step-6: Start Console Producer
+
+On another terminal, login to another Kafka node
+
+```bash
+# on docker host
+
 $   cd kafka-in-docker
-$   bash ./start-python-dev.sh
+$   docker-compose -f docker-compose-kafka-metrics.yml  exec kafka2  bash
 ```
 
-Within python container, try these
+Within the kafka container, start the console producer
+
+Run producer
+
 
 ```bash
-# we are currently in /work directory
-$   cd sample-app-python
+# within container
 
-# run producer
-$   python  producer.py
+$    kafka-console-producer.sh --bootstrap-server kafka2:19092  --topic test
 ```
 
-Now, observe output on console-consumer and java-consumer windows!  And check-out the Kafka-manager UI too.
+Type a few lines into console producer terminal
 
-![](images/kafka-single-5a.png)
+```text
+1
+2
+3
+4
+```
 
-## Step-11: Checkout Metrics
+And watch it come out on console terminal
+
+## Step-7: Checkout Metrics
 
 This stack has has a full compliment of monitoring tools.
 
@@ -192,7 +144,7 @@ Checkout Prmometheus UI at [localhost:9090](http://localhost:9090) .  Here we se
 
 ![](images/kafka-full-1.png)
 
-## Step-12: Visualize with Grafana
+## Step-8: Visualize with Grafana
 
 Grafana UI is [localhost:3000](http://localhost:3000)
 
@@ -217,7 +169,11 @@ Here is a sample Grafana UI with pre-defined dashboards.
 
 ![](images/kafka-full-5a.png)
 
-## Step-13: Shutdown
+## Step-9: Developing Applications
+
+See [application development guide](kafka-dev/README.md)
+
+## Step-10: Shutdown
 
 ```bash
 $   bash ./stop-kafka-full.sh

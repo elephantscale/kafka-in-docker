@@ -11,3 +11,12 @@ datasources:
     basicAuth: false
     isDefault: true
     editable: true
+
+  - name: Graphite
+    type: graphite
+    access: proxy  # we need to use proxy to work in remote environments
+    orgId: 1
+    url: http://graphite:8080
+    basicAuth: false
+    isDefault: false
+    editable: true

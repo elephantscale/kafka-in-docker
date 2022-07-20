@@ -3,21 +3,23 @@ services:
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
     ports:
       - 2181:2181
     restart: unless-stopped
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     volumes:
-      - zookeeper_data:/bitnami/zookeeper
+      - zookeeper_data_multi:/bitnami/zookeeper
     networks:
-      - kafka-net
+      - bobafett-net
 
   kafka1:
     image: 'bitnami/kafka:3'
+    container_name: kafka1
     ports:
       - 19092   # just within docker network
-      - '9092:9092'   # localhost mapping
+      - 9092:9092   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=1
@@ -31,17 +33,18 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka1_data:/bitnami/kafka
+      - kafka1_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka2:
     image: 'bitnami/kafka:3'
+    container_name: kafka2
     ports:
       - 19092   # just within docker network
-      - '9093:9093'   # localhost mapping
+      - 9093:9093   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=2
@@ -55,17 +58,18 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka2_data:/bitnami/kafka
+      - kafka2_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka3:
     image: 'bitnami/kafka:3'
+    container_name: kafka3
     ports:
       - 19092   # just within docker network
-      - '9094:9094'   # localhost mapping
+      - 9094:9094   # localhost mapping
     restart: unless-stopped
     environment:
       - KAFKA_BROKER_ID=3
@@ -79,53 +83,63 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - kafka3_data:/bitnami/kafka
+      - kafka3_data_multi:/bitnami/kafka
       - ./scripts/kafka-server-start.sh:/opt/bitnami/kafka/bin/kafka-server-start.sh  # custom-startup-script with JMX_PORT enabled
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   kafka-manager:
-    build:
-      context: kafka-manager
+    image: 'elephantscale/kafka-manager'
+    container_name: kafka-manager
     depends_on:
       - zookeeper
     ports:
-      - '9000:9000'   # localhost mapping
+      - 9000:9000   # localhost mapping
     restart: unless-stopped
     environment:
       - ZK_HOSTS=zookeeper:2181
     networks:
-      - kafka-net
+      - bobafett-net
 
 
+  graphite:
+    image: graphiteapp/graphite-statsd
+    container_name: graphite
+    restart: always
+    ports:
+      - 2003:2003
+    networks:
+      - bobafett-net
 
   grafana:
     image: grafana/grafana:8.2.5
+    container_name: grafana
     ports:
       - 3000
     environment:
       GF_PATHS_DATA: /var/lib/grafana
       GF_SECURITY_ADMIN_PASSWORD: kafka
     volumes:
-      - './grafana/provisioning:/etc/grafana/provisioning'
-      - './grafana/dashboards:/var/lib/grafana/dashboards'
+      - './config/grafana/provisioning:/etc/grafana/provisioning'
+      - './config/grafana/dashboards:/var/lib/grafana/dashboards'
     depends_on:
       - prometheus
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
   prometheus:
     image: prom/prometheus:v2.31.1
+    container_name: prometheus
     ports:
       - 9090
     volumes:
       - './config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
     command: '--config.file=/etc/prometheus/prometheus.yml'
     networks:
-      - kafka-net
+      - bobafett-net
 
   nodeexporter:
     image: prom/node-exporter:v1.3.0
@@ -143,11 +157,12 @@ services:
     ports:
       - 9100
     networks:
-      - kafka-net
+      - bobafett-net
 
 
   jmx-kafka1:
     image: sscaling/jmx-prometheus-exporter
+    container_name: jmx-kafka1
     ports:
       - 5556
     environment:
@@ -158,12 +173,13 @@ services:
     depends_on:
       - kafka1
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
   jmx-kafka2:
     image: sscaling/jmx-prometheus-exporter
+    container_name: jmx-kafka2
     ports:
       - 5556
     environment:
@@ -174,12 +190,13 @@ services:
     depends_on:
       - kafka2
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
   jmx-kafka3:
     image: sscaling/jmx-prometheus-exporter
+    container_name: jmx-kafka3
     ports:
       - 5556
     environment:
@@ -190,33 +207,34 @@ services:
     depends_on:
       - kafka3
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 
   caddy:
     image: 'caddy:2.3.0'
+    container_name: caddy
     ports:
       - '3000:3000'
       - '9090:9090'
     volumes:
       - './config/caddy:/etc/caddy'
     networks:
-      - kafka-net
+      - bobafett-net
 
 
 volumes:
-  zookeeper_data:
+  zookeeper_data_multi:
     driver: local
-  kafka1_data:
+  kafka1_data_multi:
     driver: local
-  kafka2_data:
+  kafka2_data_multi:
     driver: local
-  kafka3_data:
+  kafka3_data_multi:
     driver: local
 
 
 networks:
-  kafka-net:
+  bobafett-net:
     driver: bridge
-    name: kafka-net
+    name: bobafett-net
