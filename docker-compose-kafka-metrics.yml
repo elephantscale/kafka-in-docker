@@ -4,6 +4,7 @@ services:
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     container_name: zookeeper
+    hostname: zookeeper
     ports:
       - 2181:2181
     restart: unless-stopped
@@ -17,6 +18,7 @@ services:
   kafka1:
     image: 'bitnami/kafka:3'
     container_name: kafka1
+    hostname: kafka1
     ports:
       - 19092   # just within docker network
       - 9092:9092   # localhost mapping
@@ -42,6 +44,7 @@ services:
   kafka2:
     image: 'bitnami/kafka:3'
     container_name: kafka2
+    hostname: kafka2
     ports:
       - 19092   # just within docker network
       - 9093:9093   # localhost mapping
@@ -67,6 +70,7 @@ services:
   kafka3:
     image: 'bitnami/kafka:3'
     container_name: kafka3
+    hostname: kafka3
     ports:
       - 19092   # just within docker network
       - 9094:9094   # localhost mapping
@@ -92,6 +96,7 @@ services:
   kafka-manager:
     image: 'elephantscale/kafka-manager'
     container_name: kafka-manager
+    hostname: kafka-manager
     depends_on:
       - zookeeper
     ports:
@@ -106,6 +111,7 @@ services:
   graphite:
     image: graphiteapp/graphite-statsd
     container_name: graphite
+    hostname: graphite
     restart: always
     ports:
       - 2003:2003
@@ -115,6 +121,7 @@ services:
   grafana:
     image: grafana/grafana:8.2.5
     container_name: grafana
+    hostname: grafana
     ports:
       - 3000
     environment:
@@ -133,6 +140,7 @@ services:
   prometheus:
     image: prom/prometheus:v2.31.1
     container_name: prometheus
+    hostname: prometheus
     ports:
       - 9090
     volumes:
@@ -144,6 +152,7 @@ services:
   nodeexporter:
     image: prom/node-exporter:v1.3.0
     container_name: nodeexporter
+    hostname: nodeexporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -163,6 +172,7 @@ services:
   jmx-kafka1:
     image: sscaling/jmx-prometheus-exporter
     container_name: jmx-kafka1
+    hostname: jmx-kafka1
     ports:
       - 5556
     environment:
@@ -180,6 +190,7 @@ services:
   jmx-kafka2:
     image: sscaling/jmx-prometheus-exporter
     container_name: jmx-kafka2
+    hostname: jmx-kafka2
     ports:
       - 5556
     environment:
@@ -197,6 +208,7 @@ services:
   jmx-kafka3:
     image: sscaling/jmx-prometheus-exporter
     container_name: jmx-kafka3
+    hostname: jmx-kafka3
     ports:
       - 5556
     environment:
@@ -214,6 +226,7 @@ services:
   caddy:
     image: 'caddy:2.3.0'
     container_name: caddy
+    hostname: caddy
     ports:
       - '3000:3000'
       - '9090:9090'
