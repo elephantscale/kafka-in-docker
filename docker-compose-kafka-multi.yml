@@ -3,6 +3,7 @@ services:
 
   zookeeper:
     image: 'bitnami/zookeeper:latest'
+    # image: 'bitnami/zookeeper:3.7'  ## Proven
     container_name: zookeeper
     hostname: zookeeper
     ports:
@@ -17,6 +18,7 @@ services:
 
   kafka1:
     image: 'bitnami/kafka:3'
+    # image: 'bitnami/kafka:3.2.0'  # proven
     container_name: kafka1
     hostname: kafka1
     ports:
