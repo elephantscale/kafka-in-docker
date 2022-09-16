@@ -170,9 +170,10 @@ We use Caddy for proxying traffic for Grafana and Prometheus.  This way the UIs 
 
 ## References
 
-### Other Kafka Images
+### Kafka Images
 
-- [bitnami/kafka](https://hub.docker.com/r/bitnami/kafka)
+- [bitnami/kafka](https://hub.docker.com/r/bitnami/kafka) - This is the one I used
+- [confluentinc/cp-kafka](https://hub.docker.com/r/confluentinc/cp-kafka) - Confluent community Kafka image
 
 ### Excellent guides that helped me
 
