@@ -5,7 +5,7 @@ This stack features: zookeeper + multiple kafka brokers + kafka manager UI + Jav
 There are different configurations to fit your needs:
 
 - minimal : 1 zookeeper + 1 kafka broker + kafka manager UI
-- multi node: 1 zookeeper + 3 kafka brokers + kafka manager UI
+- multi broker: 1 zookeeper + 3 kafka brokers + kafka manager UI
 - full stack: 1 zookeeper + 3 kafka brokers + kafka manager UI + Prometheus + Grafana
 
 ## Quickstart: Clone this repo
@@ -40,16 +40,7 @@ $   git clone https://github.com/elephantscale/kafka-in-docker
 ![](images/k1.png)
 ![](images/km1.png)
 
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-![](images/beer-1a.png)
-
-This stack is **everything**.  Starts...
+This stack is **everything**.
 
 * 1 x zookeeper
 * 3 x Kafka brokers
